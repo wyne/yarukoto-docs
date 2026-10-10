@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="en" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-vrlb2lus"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Building the Mac app | Yarukoto</title><link rel="canonical" href="https://docs.yarukotoapp.com/development/mac/"/><link rel="sitemap" href="/sitemap-index.xml"/><link rel="shortcut icon" href="/favicon.png" type="image/png"/><meta name="generator" content="Astro v7.3.8"/><meta name="generator" content="Starlight v0.42.6"/><meta property="og:title" content="Building the Mac app"/><meta property="og:type" content="article"/><meta property="og:url" content="https://docs.yarukotoapp.com/development/mac/"/><meta property="og:locale" content="en"/><meta property="og:description" content="Mac Catalyst builds, signed releases and desktop input."/><meta property="og:site_name" content="Yarukoto"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Mac Catalyst builds, signed releases and desktop input."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/_astro/common.CPCe-Wgz.css"><script type="module" src="/_astro/page.cNngjUgL.js"></script></head><body class="astro-vrlb2lus"><a class="sl-skip-link astro-6gtjfq6h" href="#_top">Skip to content</a><div class="page sl-flex astro-43ofpuuo"><header class="header astro-43ofpuuo"><div class="header astro-rywhdk37"><div class="title-wrapper sl-flex astro-rywhdk37"><a href="/" class="site-title sl-flex astro-epaa6ivz"><img class="astro-epaa6ivz" alt src="/_astro/logo.DiRjw2Hb.png" width="180" height="180"><span class="astro-epaa6ivz" translate="no">Yarukoto</span></a></div><div class="sl-flex print:hidden astro-rywhdk37"><site-search class="astro-rywhdk37 astro-pqxjjjcu" data-translations="{&quot;placeholder&quot;:&quot;Search&quot;}"><button data-open-modal disabled aria-label="Search" aria-keyshortcuts="Control+K" class="astro-pqxjjjcu"><svg aria-hidden="true" class="astro-pqxjjjcu astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-pqxjjjcu" aria-hidden="true">Search</span><kbd class="sl-hidden md:sl-flex astro-pqxjjjcu" style="display: none;"><kbd class="astro-pqxjjjcu">Ctrl</kbd><kbd class="astro-pqxjjjcu">K</kbd></kbd></button><dialog style="padding:0" aria-label="Search" class="astro-pqxjjjcu"><div class="dialog-frame sl-flex astro-pqxjjjcu"><button data-close-modal class="sl-flex md:sl-hidden astro-pqxjjjcu">Cancel</button><div class="search-container astro-pqxjjjcu"><div id="starlight__search" class="astro-pqxjjjcu"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/_astro/Search.astro_astro_type_script_index_0_lang.g9hoxVJg.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-rywhdk37"><div class="sl-flex social-icons astro-rywhdk37"><a href="https://github.com/wyne/yarukoto" rel="me" class="sl-flex astro-fram5qyp"><span class="sr-only astro-fram5qyp">GitHub</span><svg aria-hidden="true" class="astro-fram5qyp astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-xcnfjjdi"><span class="sr-only astro-xcnfjjdi">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-xcnfjjdi astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-xcnfjjdi"><option value="dark" class="astro-xcnfjjdi">Dark</option><option value="light" class="astro-xcnfjjdi">Light</option><option value="auto" selected class="astro-xcnfjjdi">Auto</option></select><svg aria-hidden="true" class="icon caret astro-xcnfjjdi astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-43ofpuuo" aria-label="Main"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-utsmonz3"><svg aria-hidden="true" class="open-menu astro-utsmonz3 astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-utsmonz3 astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-utsmonz3">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-43ofpuuo"><div class="sidebar-content sl-flex astro-43ofpuuo"><sl-sidebar-state-persist data-hash="0y25skb" class="astro-o6ucwzw4"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/" class="large astro-6suf6bwn"><span class="astro-6suf6bwn">Introduction</span></a></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Getting started</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/getting-started/docker/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Running it with Docker</span></a></li><li class="astro-6suf6bwn"><a href="/getting-started/synology/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Synology NAS</span></a></li></ul></details></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Using the apps</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/using/apps/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Getting the apps</span></a></li><li class="astro-6suf6bwn"><a href="/using/keyboard/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Keyboard shortcuts</span></a></li><li class="astro-6suf6bwn"><a href="/using/household/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Household</span></a></li><li class="astro-6suf6bwn"><a href="/using/reminders/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Reminders</span></a></li><li class="astro-6suf6bwn"><a href="/using/delete-account/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Deleting your account</span></a></li><li class="astro-6suf6bwn"><a href="/using/support/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Getting help</span></a></li></ul></details></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Self-hosting</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/self-hosting/configuration/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Configuration</span></a></li><li class="astro-6suf6bwn"><a href="/self-hosting/reverse-proxy/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">HTTPS and reverse proxies</span></a></li><li class="astro-6suf6bwn"><a href="/self-hosting/backups/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Backups</span></a></li></ul></details></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Integrations</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/integrations/ai-assistants/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">AI assistants (MCP)</span></a></li><li class="astro-6suf6bwn"><a href="/integrations/home-assistant/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Home Assistant</span></a></li></ul></details></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Reference</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/reference/api/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">REST API</span></a></li><li class="astro-6suf6bwn"><a href="/reference/limitations/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Limitations</span></a></li></ul></details></li><li class="astro-6suf6bwn"><details open class="astro-6suf6bwn"><summary class="astro-6suf6bwn"><span class="group-label astro-6suf6bwn"><span class="large astro-6suf6bwn">Development</span></span><svg aria-hidden="true" class="caret astro-6suf6bwn astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul class="astro-6suf6bwn"><li class="astro-6suf6bwn"><a href="/development/setup/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Development setup</span></a></li><li class="astro-6suf6bwn"><a href="/development/architecture/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Architecture</span></a></li><li class="astro-6suf6bwn"><a href="/development/feature-compatibility/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Feature compatibility</span></a></li><li class="astro-6suf6bwn"><a href="/development/ios-and-android/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Building the iOS and Android apps</span></a></li><li class="astro-6suf6bwn"><a href="/development/mac/" aria-current="page" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Building the Mac app</span></a></li><li class="astro-6suf6bwn"><a href="/development/windows/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">Building the Windows app</span></a></li><li class="astro-6suf6bwn"><a href="/development/web-demo/" class="astro-6suf6bwn"><span class="astro-6suf6bwn">The web demo</span></a></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-julhnn2c"><div class="social-icons astro-julhnn2c"><a href="https://github.com/wyne/yarukoto" rel="me" class="sl-flex astro-fram5qyp"><span class="sr-only astro-fram5qyp">GitHub</span><svg aria-hidden="true" class="astro-fram5qyp astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.08 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18a4.65 4.65 0 0 1 1.23 3.22c0 4.61-2.8 5.63-5.48 5.92.42.36.81 1.1.81 2.22l-.01 3.29c0 .31.2.69.82.57A12 12 0 0 0 12 .3Z"/></svg></a></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-xcnfjjdi"><span class="sr-only astro-xcnfjjdi">Select theme</span><svg aria-hidden="true" class="icon label-icon astro-xcnfjjdi astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-xcnfjjdi"><option value="dark" class="astro-xcnfjjdi">Dark</option><option value="light" class="astro-xcnfjjdi">Light</option><option value="auto" selected class="astro-xcnfjjdi">Auto</option></select><svg aria-hidden="true" class="icon caret astro-xcnfjjdi astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-43ofpuuo"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-24prv3ca"><aside class="right-sidebar-container print:hidden astro-24prv3ca"><div class="right-sidebar astro-24prv3ca"><div class="lg:sl-hidden astro-nukmwqca"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-ksi3omhb"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-ksi3omhb"><details id="starlight__mobile-toc" class="astro-ksi3omhb"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-ksi3omhb"><span class="toggle sl-flex astro-ksi3omhb">On this page<svg aria-hidden="true" class="caret astro-ksi3omhb astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-ksi3omhb"></span></summary><div class="dropdown astro-ksi3omhb"><ul class="isMobile astro-3c3mef7m" style="--depth: 0;"><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#_top" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Overview</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#what-makes-it-build" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">What makes it build</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#signed-direct-download-releases" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Signed direct-download releases</span></a><ul class="isMobile astro-3c3mef7m" style="--depth: 1;"><li style="--depth: 1;" class="astro-3c3mef7m"><a href="#publishing-the-download" style="--depth: 1;" class="astro-3c3mef7m"><span style="--depth: 1;" class="astro-3c3mef7m">Publishing the download</span></a></li></ul></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#desktop-input-on-the-mac" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Desktop input on the Mac</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#where-it-stands" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Where it stands</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#the-other-route-the-iphone-app-on-apple-silicon" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">The other route: the iPhone app on Apple Silicon</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-nukmwqca"><div class="sl-container astro-nukmwqca"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">On this page</h2><ul class="astro-3c3mef7m" style="--depth: 0;"><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#_top" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Overview</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#what-makes-it-build" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">What makes it build</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#signed-direct-download-releases" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Signed direct-download releases</span></a><ul class="astro-3c3mef7m" style="--depth: 1;"><li style="--depth: 1;" class="astro-3c3mef7m"><a href="#publishing-the-download" style="--depth: 1;" class="astro-3c3mef7m"><span style="--depth: 1;" class="astro-3c3mef7m">Publishing the download</span></a></li></ul></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#desktop-input-on-the-mac" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Desktop input on the Mac</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#where-it-stands" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">Where it stands</span></a></li><li style="--depth: 0;" class="astro-3c3mef7m"><a href="#the-other-route-the-iphone-app-on-apple-silicon" style="--depth: 0;" class="astro-3c3mef7m"><span style="--depth: 0;" class="astro-3c3mef7m">The other route: the iPhone app on Apple Silicon</span></a></li></ul></nav></starlight-toc><script type="module" src="/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-24prv3ca"><main data-pagefind-body class="astro-vrlb2lus" lang="en" dir="ltr"><div class="content-panel astro-mgauko2b"><div class="sl-container astro-mgauko2b"><h1 id="_top" class="astro-ituesnu5">Building the Mac app</h1></div></div><div class="content-panel astro-mgauko2b"><div class="sl-container astro-mgauko2b"><div class="sl-markdown-content"><p>Expo has no macOS target, but it doesn’t need one: the iOS project builds for <strong>Mac Catalyst</strong>,
+which compiles the same app into a real macOS <code dir="auto">.app</code> (arm64 and x86_64) with resizable windows and
+a menu bar. The wide layout — pinned sidebar, list, and task pane side by side — is the same
+<code dir="auto">width &gt;= 900</code> check the web build uses, so a Mac window gets it with no Mac-specific screens.</p>
+<div class="expressive-code"><link rel="stylesheet" href="/_astro/ec.w36nc.css"><script type="module" src="/_astro/ec.0vx5m.js"></script><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">cd</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">client</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac</span><span style="--0:#D6DEEB;--1:#403F53">              </span><span style="--0:#919F9F;--1:#5F636F"># prebuild with Catalyst on, then a Release build for the Mac</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--open</span><span style="--0:#D6DEEB;--1:#403F53">    </span><span style="--0:#919F9F;--1:#5F636F"># ...and launch it</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac:release</span><span style="--0:#D6DEEB;--1:#403F53">      </span><span style="--0:#919F9F;--1:#5F636F"># sign, notarize, staple, and package a website download</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac:dev</span><span style="--0:#D6DEEB;--1:#403F53">          </span><span style="--0:#919F9F;--1:#5F636F"># the dev client, built Debug and launched against Metro</span></div></div><div class="ec-line"><div class="code"><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac:dev</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">--no-build</span><span style="--0:#D6DEEB;--1:#403F53">   </span><span style="--0:#919F9F;--1:#5F636F"># relaunch the last dev build; enough for JS changes</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="cd clientnpm run mac              # prebuild with Catalyst on, then a Release build for the Macnpm run mac -- --open    # ...and launch itnpm run mac:release      # sign, notarize, staple, and package a website downloadnpm run mac:dev          # the dev client, built Debug and launched against Metronpm run mac:dev -- --no-build   # relaunch the last dev build; enough for JS changes"><div></div></button></div></figure></div>
+<p>The development command prints the path to the finished app under <code dir="auto">client/ios/build/catalyst/</code>.
+<code dir="auto">APP_VARIANT</code> works as
+it does for the phone (<code dir="auto">APP_VARIANT=preview npm run mac</code>), so variants can sit side by side on a
+Mac too.</p>
+<p><code dir="auto">mac:dev</code> is the Mac’s <code dir="auto">ios:dev</code> plus <code dir="auto">start:dev</code> in one: it builds the development variant in
+Debug, starts Metro in the terminal, and opens the app pointed at it, so JS edits reload in place.
+Only a native change needs the rebuild; for anything else, <code dir="auto">--no-build</code> starts in seconds.</p>
+<p>Like <code dir="auto">ios:dev</code>, this <strong>regenerates <code dir="auto">client/ios</code></strong> with <code dir="auto">prebuild --clean</code>, and what it leaves there
+is a Catalyst-enabled project. The next phone build that prebuilds replaces it; one that doesn’t
+(<code dir="auto">expo run:ios</code> on its own) would compile it as-is, which works but is slower — see below.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="what-makes-it-build">What makes it build</h2><a class="sl-anchor-link" href="#what-makes-it-build"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “What makes it build”</span></a></div>
+<p><code dir="auto">client/plugins/mac-catalyst</code> applies four changes to the generated project. Each one was a build
+failure without it:</p>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>React Native’s <code dir="auto">:mac_catalyst_enabled</code> Podfile flag, plus <code dir="auto">SUPPORTS_MACCATALYST</code> on the app target</td>
+<td>Offers the Mac destination at all, and applies React Native’s Catalyst linker and signing fixes.</td>
+</tr>
+<tr>
+<td><code dir="auto">EXPO_USE_PRECOMPILED_MODULES=false</code></td>
+<td>Expo’s precompiled module xcframeworks have no Catalyst slice, so those modules compile from source instead. React Native’s own prebuilt core and Hermes <em>do</em> have one and stay prebuilt.</td>
+</tr>
+<tr>
+<td>Every pod’s <code dir="auto">MACOSX_DEPLOYMENT_TARGET</code> → 14.0</td>
+<td>CocoaPods defaults pods to macOS 10.15, below the oldest macOS Xcode will build for.</td>
+</tr>
+<tr>
+<td>Every pod’s <code dir="auto">IPHONEOS_DEPLOYMENT_TARGET</code> → 16.4</td>
+<td>Catalyst derives a pod’s macOS target from its iOS one, and React Native’s pods default to 15.1, which maps too low. The app already requires 16.4, so this changes nothing on a phone.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>It is opt-in</strong> — the plugin only runs when <code dir="auto">MAC_CATALYST=1</code>, which <code dir="auto">npm run mac</code> sets. Compiling
+Expo’s modules from source makes every build slower, and React Native’s Catalyst patch rewrites
+the app target’s library search paths; a phone build shouldn’t carry either for a target it isn’t
+producing. The plugin’s Podfile edits anchor on text in Expo’s template and fail the prebuild if
+it changes, rather than quietly generating a project that won’t build for the Mac.</p>
+<p>EAS Build has no Catalyst target, so Mac builds are local-only.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="signed-direct-download-releases">Signed direct-download releases</h2><a class="sl-anchor-link" href="#signed-direct-download-releases"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Signed direct-download releases”</span></a></div>
+<p><code dir="auto">npm run mac:release</code> creates a Developer ID-signed archive and disk image, submits the DMG to
+Apple’s notary service, staples the accepted ticket, verifies it with Gatekeeper, and writes a DMG plus SHA-256
+checksum under <code dir="auto">client/dist/macos/&lt;version&gt;-&lt;build&gt;/</code>. It reads the signing identity from the
+login keychain and the notarization credential from the <code dir="auto">yarukoto-notary</code> keychain profile; neither
+secret lives in the repository.</p>
+<p>The disk image opens to a window with the app, a link to Applications and a background with an
+arrow between them, so installing is one drag. <a href="https://github.com/dmgbuild/dmgbuild">dmgbuild</a>
+writes that window’s layout (<code dir="auto">client/scripts/dmg-settings.py</code>) without driving Finder, which is
+what lets CI build it too; the script installs it into a virtualenv under <code dir="auto">dist/</code> on first use. The
+background is rendered from <code dir="auto">client/assets/dmg/background.html</code>, at 1x and 2x.</p>
+<p>The version defaults to the root <code dir="auto">package.json</code>, the same source Release Please and Expo use. The
+build number defaults to a UTC timestamp so
+successive local releases increase naturally. Either can be made explicit:</p>
+<div class="expressive-code"><figure class="frame is-terminal not-content"><figcaption class="header"><span class="title"></span><span class="sr-only">Terminal window</span></figcaption><pre data-language="bash"><code><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">cd</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">client</span></div></div><div class="ec-line"><div class="code"><span style="--0:#C5E478;--1:#3B61B0">MAC_VERSION</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#ECC48D;--1:#3B61B0">1.0.1</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#C5E478;--1:#3B61B0">MAC_BUILD_NUMBER</span><span style="--0:#C792EA;--1:#8844AE">=</span><span style="--0:#ECC48D;--1:#3B61B0">2026092701</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#82AAFF;--1:#3B61B0">npm</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">run</span><span style="--0:#D6DEEB;--1:#403F53"> </span><span style="--0:#ECC48D;--1:#3B61B0">mac:release</span></div></div></code></pre><div class="copy"><div aria-live="polite"></div><button title="Copy to clipboard" data-copied="Copied!" data-code="cd clientMAC_VERSION=1.0.1 MAC_BUILD_NUMBER=2026092701 npm run mac:release"><div></div></button></div></figure></div>
+<p>Set <code dir="auto">APPLE_TEAM_ID</code> or <code dir="auto">NOTARY_PROFILE</code> only when using a different Apple team or keychain profile.
+To notarize with an App Store Connect API key instead of a keychain profile, set <code dir="auto">NOTARY_KEY</code> (the
+<code dir="auto">.p8</code> file’s path), <code dir="auto">NOTARY_KEY_ID</code> and <code dir="auto">NOTARY_ISSUER</code>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="publishing-the-download">Publishing the download</h3><a class="sl-anchor-link" href="#publishing-the-download"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Publishing the download”</span></a></div>
+<p>Merging Release Please’s <code dir="auto">chore: release X.Y.Z</code> PR runs
+<code dir="auto">.github/workflows/desktop-release.yml</code>: it builds the Windows installers alongside the signed Mac
+app and attaches them to the <a href="https://github.com/wyne/yarukoto/releases">Yarukoto release</a>. You can
+also run <strong>Actions → Desktop release → Run workflow</strong> to rebuild a version. The version defaults to
+the root <code dir="auto">package.json</code>; running a version again replaces its files.</p>
+<p>During the <code dir="auto">v1.0.0</code> cutover, the website and <a href="/using/apps/">Getting the apps</a> keep using the
+existing downloads in the legacy desktop repository:</p>
+<ul>
+<li><code dir="auto">https://github.com/wyne/yarukoto-desktop/releases/latest/download/Yarukoto-mac.dmg</code></li>
+<li><code dir="auto">https://github.com/wyne/yarukoto-desktop/releases/latest/download/Yarukoto-windows-setup.exe</code></li>
+<li><code dir="auto">https://github.com/wyne/yarukoto-desktop/releases/latest/download/Yarukoto-windows.msi</code></li>
+</ul>
+<p>Those stable public links remain on the legacy desktop repository through the <code dir="auto">v1.0.0</code> cutover.
+After this repository has a complete app release, switch the website and docs to its matching
+<code dir="auto">releases/latest/download/</code> URLs.</p>
+<p>The workflow needs these repository secrets:</p>
+<table>
+<thead>
+<tr>
+<th>Secret</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code dir="auto">MAC_CERTIFICATE_P12</code></td>
+<td>The Developer ID Application certificate with its private key, exported from Keychain Access as a <code dir="auto">.p12</code> and base64-encoded (<code dir="auto">base64 -i cert.p12 | pbcopy</code>).</td>
+</tr>
+<tr>
+<td><code dir="auto">MAC_CERTIFICATE_PASSWORD</code></td>
+<td>The password chosen for that export.</td>
+</tr>
+<tr>
+<td><code dir="auto">APPLE_API_KEY_P8</code></td>
+<td>The text of an App Store Connect API key (<code dir="auto">.p8</code>) from <strong>Users and Access → Integrations → App Store Connect API</strong>. Developer access is enough to notarize.</td>
+</tr>
+<tr>
+<td><code dir="auto">APPLE_API_KEY_ID</code></td>
+<td>That key’s ID.</td>
+</tr>
+<tr>
+<td><code dir="auto">APPLE_API_ISSUER_ID</code></td>
+<td>The issuer ID shown above the key list.</td>
+</tr>
+</tbody>
+</table>
+<p>The release workflow additionally needs <code dir="auto">EXPO_TOKEN</code> for the iOS and Android EAS builds. An
+optional fine-grained <code dir="auto">RELEASE_PLEASE_TOKEN</code> with repository contents and pull request write access
+lets Release Please’s generated PR trigger normal CI; without it, the PR is still created but its
+checks need to be run or verified separately.</p>
+<p>The release prebuild also enables App Sandbox, outgoing network connections, and the hardened runtime
+for Catalyst. The existing <code dir="auto">NSLocalNetworkUsageDescription</code> and <code dir="auto">NSAllowsLocalNetworking</code> entries
+remain responsible for the user-facing LAN prompt and LAN HTTP exception.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="desktop-input-on-the-mac">Desktop input on the Mac</h2><a class="sl-anchor-link" href="#desktop-input-on-the-mac"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Desktop input on the Mac”</span></a></div>
+<p>On the Mac <code dir="auto">Platform.OS</code> is <code dir="auto">'ios'</code>, so nothing keyed on the platform alone can tell it from a
+phone. <code dir="auto">src/data/platform.ts</code> instead answers the questions the UI actually asks:</p>
+<ul>
+<li><strong><code dir="auto">DESKTOP_UI</code></strong> — a keyboard and pointer are assumed present: the pinned add field instead of
+the floating button, click-to-select, popovers instead of sheets, resizable panes. Every web
+build and the Mac.</li>
+<li><strong><code dir="auto">FINE_POINTER</code></strong> — a mouse or trackpad: drags start immediately instead of after a hold, and
+menus come from right-click instead of long-press.</li>
+<li><strong><code dir="auto">FLOATING_TAB_BAR</code></strong> — the narrow layout’s tab bar is native chrome over the content, which
+content has to clear. Every native build, the Mac included.</li>
+</ul>
+<p>Width decides layout separately, as it always has.</p>
+<p><strong>Native menus</strong> — the task pane’s Date, Time and Reminders, among others — are SwiftUI menus from
+<code dir="auto">@expo/ui</code>. On the Mac SwiftUI draws a menu’s trigger as a system pop-up button, which can’t show a
+custom label, so they rendered as empty pills. <code dir="auto">src/components/NativeMenu.tsx</code> restyles the trigger
+as a plain button on the Mac so our own value-and-chevron label shows, while the menu that opens
+stays the system’s. Use it in place of <code dir="auto">@expo/ui/community/menu</code>.</p>
+<p><strong>Light and dark.</strong> Native controls — menus, date pickers, glass — take their appearance from the
+window, which follows the device, while the app has a light/dark setting of its own. On iOS the
+theme provider overrides the window’s appearance to match the app’s setting, so a dark app on a
+light Mac or phone gets dark menus instead of light ones.</p>
+<p><strong>No wheels.</strong> iOS’s wheel pickers aren’t supported on the Mac: UIKit throws the moment one appears,
+and the app crashes. The compact time field that stands in for one draws but takes no input when
+hosted in the app. So the Mac picks a time from three menus — hour, minute in five-minute steps,
+AM/PM (<code dir="auto">src/components/pickers/MacTimeMenus.tsx</code>) — and a reminder’s offset from a menu, where a
+phone spins wheels.</p>
+<p><strong>Right-click</strong> goes through <code dir="auto">ContextMenuTarget</code>, which opens the same popover menus on web and the
+Mac. On web it listens for the DOM <code dir="auto">contextmenu</code> event. On iOS, React Native’s gesture recognizers
+only accept the primary button, so a right-click never reaches JS on its own. The local Expo module
+<code dir="auto">client/modules/mac-pointer</code> wraps the target in a native view carrying a
+<code dir="auto">UIContextMenuInteraction</code> — the channel Mac Catalyst routes right-clicks through. It reports the
+click’s position to JS and declines to show a native menu, so the JS popover opens instead. (A
+gesture recognizer requiring the secondary button looks like the obvious tool and doesn’t work:
+UIKit never offers it the click.)</p>
+<p>The interaction is only installed on the Mac. On a touchscreen it would answer a long press, which
+already starts a drag, so an iPad with a trackpad has no right-click yet.</p>
+<p><strong>Hover</strong> tints rows, menu items and buttons as on web. React Native on iOS dispatches no pointer
+events at all unless a global switch is on, and it is off by default — so the same module turns it
+on, Mac only, from a <code dir="auto">+load</code> hook that runs before React Native starts (<code dir="auto">MacPointerEvents.m</code>).
+<code dir="auto">src/components/HoverPressable.tsx</code> then turns pointer enter and leave into the <code dir="auto">hovered</code> flag
+react-native-web already supplies, so the hover styles in <code dir="auto">src/theme/hover.ts</code> work unchanged. Use it
+in place of React Native’s <code dir="auto">Pressable</code> anywhere that styles on <code dir="auto">hovered</code>. The list’s drag handle,
+which only appears on hover, takes pointer enter and leave directly — and matters more than a tint:
+with a fine pointer, rows drag from that handle alone. Tooltips still listen for DOM events and
+stay web-only.</p>
+<p><strong>The menu bar</strong> adds the app’s own commands to the one Catalyst provides, from one list in
+<code dir="auto">src/navigation/commands.ts</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Menu</th>
+<th>Command</th>
+<th>Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yarukoto</td>
+<td>Settings…</td>
+<td>⌘,</td>
+</tr>
+<tr>
+<td>File</td>
+<td>New Task — the pinned add field, or the Inbox’s on a screen without one</td>
+<td>⌘N</td>
+</tr>
+<tr>
+<td>Edit</td>
+<td>Find… — Browse’s search</td>
+<td>⌘F</td>
+</tr>
+<tr>
+<td>View</td>
+<td>Command Menu…</td>
+<td>⌘K</td>
+</tr>
+<tr>
+<td>View</td>
+<td>Toggle Sidebar / Toggle Task Pane</td>
+<td>⌘S / ⌘D</td>
+</tr>
+<tr>
+<td>View</td>
+<td>All, Inbox, Today, Calendar, Activity, Browse, Trash — the sidebar’s views, in its order</td>
+<td>⌘1 to ⌘7</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Open Task — beside the list, keeping the keyboard there</td>
+<td>⌘O, or Space in the list</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Mark as Done</td>
+<td>⌘↩</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Due Today / Due Tomorrow / Remove Due Date</td>
+<td>⌘T / ⌥⌘T / —</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Priority ▸ High, Medium, Low, None</td>
+<td>⌥⌘1, 2, 3, 0</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>Move to Trash</td>
+<td>⌫ in the list</td>
+</tr>
+<tr>
+<td>Help</td>
+<td>Keyboard Shortcuts — every key, built from the same list</td>
+<td>⌘/</td>
+</tr>
+<tr>
+<td>Help</td>
+<td>Yarukoto Help / Contact Support / Privacy Policy — open the docs, the support page and the privacy policy in the browser</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>The Task menu works on the list’s cursor: the row last clicked or arrowed to, which keeps its tint.
+With a selection it works on all of it. Format is removed, since nothing here styles text, and
+Help’s own items replace the system’s, which has no help book to open. A
+command nothing on screen can answer is dimmed, and a Task command also while a popover or dialog
+is up.</p>
+<p><strong>The list’s own keys</strong> — ↑ and ↓ to move the cursor, ⌘↑ ⌘↓ Home End and the page keys to jump,
+⇧↑ and ⇧↓ to select, ↩ to edit, Space to open, → and ← into the task pane and the sidebar, ⌫ to
+trash, Escape to deselect — are not in the menu bar, and can’t be: AppKit tries a menu key equivalent before
+anything focused hears the key, so a plain ↩ there would take Return from every text field.
+Instead the list holds them itself, through <code dir="auto">KeyCommandsView</code> in <code dir="auto">client/modules/mac-pointer</code>,
+taking the keyboard when it appears, when you click in it, and when a dialog closes. A field
+focused anywhere else keeps every key.</p>
+<p><strong>Moving between panes.</strong> Tab and Shift-Tab go round the add field, the list and the task pane, and
+Escape in a field hands the keyboard back to the list. Each pane registers how it takes the
+keyboard with <code dir="auto">usePaneFocus</code> (<code dir="auto">src/navigation/focusPanes.ts</code>) while its screen is in front, so
+whatever moves focus only names the pane. The sidebar takes the keyboard in a focusable key view
+of its own; while it holds it, a list arriving at the front doesn’t claim the keyboard as it
+normally would, or arrowing through views would pull the arrows out of the sidebar after one press. The add field and the task pane are wrapped in a
+non-focusable <code dir="auto">KeyCommandsView</code> that claims Tab, Shift-Tab and Escape ahead of the field inside —
+which is also what stops the title, a text view on the Mac, from typing a tab character. On the web
+the same view listens in the capture phase (<code dir="auto">KeyCommandsView.web.tsx</code>). The list’s key view reports
+when it gains and loses first responder, and its cursor row is drawn in gray while it doesn’t hold
+the keyboard. The full list of keys, as users see it, is on <a href="/using/keyboard/">Keyboard shortcuts</a>.</p>
+<p>The <strong>command menu</strong> (⌘K) searches every view, list, folder, tag and saved filter, and every
+command something on screen can answer, with each one’s key beside it — so it doubles as the way
+to learn them. The web build has it too, along with the Task keys a browser lets a page have (not
+⌘N or ⌘T, which open a window and a tab first).</p>
+<p>Catalyst asks the app delegate to amend the menu, which no module can do, so <code dir="auto">plugins/mac-catalyst</code>
+writes a small override into the generated AppDelegate that hands the menu to
+<code dir="auto">client/modules/mac-menu</code>. JS sends it the command list once it starts, and screens answer
+commands through <code dir="auto">useCommand</code> in <code dir="auto">src/navigation/MenuCommands.tsx</code>. Undo doesn’t get a command of
+its own: completing or trashing a task registers on the window’s undo manager, so the system’s
+Edit ▸ Undo reads “Undo Complete Task” or “Undo Move to Trash” and ⌘Z undoes it for as long as the undo toast is up, while a focused
+text field keeps ⌘Z for its typing.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="where-it-stands">Where it stands</h2><a class="sl-anchor-link" href="#where-it-stands"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “Where it stands”</span></a></div>
+<p>The app launches, syncs with a real server, and renders its wide layout. Known gaps:</p>
+<ul>
+<li><strong>Development builds are unsigned.</strong> <code dir="auto">npm run mac</code> stays fast and local. Use
+<code dir="auto">npm run mac:release</code> for a Developer ID-signed and notarized website download.</li>
+<li><strong>A server on your LAN needs Local Network permission</strong> — including a public-looking hostname
+that split DNS resolves to a private address. macOS drops the connection until Yarukoto is on in
+System Settings → Privacy &amp; Security → Local Network, and the app shows “Could not reach the
+server”. <strong>Quit and relaunch the app after granting it</strong> — the running process keeps failing
+until then. macOS ties that permission to the code signature, which an unsigned build changes on
+every rebuild, so the prompt may not appear or may not stick; signing with a stable identity fixes
+that. Until then, the app’s binary can be added to that list by hand.</li>
+<li><strong>Shift-click in lists</strong> is web-only for now: it listens on <code dir="auto">document</code>, which the Mac doesn’t
+have. ⇧↑ and ⇧↓ select a range from the keyboard instead.</li>
+<li><strong>The Pick time sheet is mostly empty</strong> on the Mac: three small menus, in a sheet sized for the
+phone’s wheel.</li>
+<li><strong>Untested on the Mac:</strong> notifications, and their Mark done / Snooze actions.</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="the-other-route-the-iphone-app-on-apple-silicon">The other route: the iPhone app on Apple Silicon</h2><a class="sl-anchor-link" href="#the-other-route-the-iphone-app-on-apple-silicon"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Section titled “The other route: the iPhone app on Apple Silicon”</span></a></div>
+<p>Separately from Catalyst, Apple Silicon Macs can run the <strong>unmodified iPhone build</strong> from the Mac
+App Store — an availability setting on the app record in App Store Connect, not a separate build.
+It runs in a phone-sized window (the app is iPhone-only; see <a href="/development/ios-and-android/">Building the iOS app</a>)
+and only on Apple Silicon, but costs nothing. Catalyst is the path to a Mac app that looks and
+resizes like one.</p>
+</div><footer class="sl-flex astro-v4vaq65n"><div class="meta sl-flex astro-v4vaq65n"><a href="https://github.com/wyne/yarukoto/edit/main/docs/src/content/docs/development/mac.md" class="sl-flex print:hidden astro-6s3lq6wp"><svg aria-hidden="true" class="astro-6s3lq6wp astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.2em;"><path d="M22 7.24a1 1 0 0 0-.29-.71l-4.24-4.24a1 1 0 0 0-1.1-.22 1 1 0 0 0-.32.22l-2.83 2.83L2.29 16.05a1 1 0 0 0-.29.71V21a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .76-.29l10.87-10.93L21.71 8c.1-.1.17-.2.22-.33a1 1 0 0 0 0-.24v-.14l.07-.05ZM6.83 20H4v-2.83l9.93-9.93 2.83 2.83L6.83 20ZM18.17 8.66l-2.83-2.83 1.42-1.41 2.82 2.82-1.41 1.42Z"/></svg>Edit page</a><p>Last updated: <time datetime="2026-10-10T01:45:58.000Z">Oct 10, 2026</time></p></div><div class="pagination-links print:hidden astro-ljwjn3gw" dir="ltr"><a href="/development/ios-and-android/" rel="prev" class="astro-ljwjn3gw"><svg aria-hidden="true" class="astro-ljwjn3gw astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-ljwjn3gw">Previous<br class="astro-ljwjn3gw"><span class="link-title astro-ljwjn3gw">Building the iOS and Android apps</span></span></a><a href="/development/windows/" rel="next" class="astro-ljwjn3gw"><svg aria-hidden="true" class="astro-ljwjn3gw astro-zowqdkul" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-ljwjn3gw">Next<br class="astro-ljwjn3gw"><span class="link-title astro-ljwjn3gw">Building the Windows app</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
